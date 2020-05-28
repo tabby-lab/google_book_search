@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import Search from "./Search";
-import request from 'superagent';
+ import axios from 'axios';
+import Cards from './Cards'
 
 class Books extends Component {
   constructor(props) {
@@ -11,12 +12,18 @@ class Books extends Component {
     };
   }
 
-searchBook = () => {
-    request
-        .get("http://www.googleapis.com/books/v1/volumes")
-        .query({ q: this.seach })
-        .then((data) => {
-            console.log(data);
+searchBook = (event) => {
+    event.preventDefault()
+    console.log(this.state.search,"search")
+   axios
+        .get("https://www.googleapis.com/books/v1/volumes?q="+ this.state.search)
+        
+        .then((results) => {
+            console.log(results);
+            this.setState({ 
+                books:results.data.items
+            })
+
         })
 }
 
@@ -28,7 +35,10 @@ searchBook = () => {
   render() {
     return (
       <div>
-        <Search handleSearch={this.handleSearch} />
+        <Search handleSearch={this.handleSearch}  searchBook={this.searchBook}/>
+        
+        {console.log(this.state.books)}
+        <Cards books={this.state.books} />
       </div>
     );
   }

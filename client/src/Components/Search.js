@@ -5,7 +5,7 @@ return(
     <div className="search-area">
         <form action="">
             <input onChange={props.handleSearch} type="text" />
-            <button type="submit">Search</button>
+            <button type="submit" onClick={props.searchBook}>Search</button>
         </form>
     </div>
 )
